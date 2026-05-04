@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Incidencias Técnicas — Lab Cap. 1</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ── Header ─────────────────────────────────────────── -->
+  <header>
+    <div class="logo">
+      <span class="logo-dot"></span>
+      INCIDENCIAS<span style="color:var(--accent)">.</span>SYS
+    </div>
+    <span class="header-badge">Lab Cap. 1 · Sistemas de Información</span>
+  </header>
+
+  <!-- ── Contenido principal ───────────────────────────── -->
+  <main class="container">
+
+    <!-- Tabs de navegación -->
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="dashboard">
+        📊 Dashboard
+      </button>
+      <button class="tab-btn" data-tab="registro">
+        ＋ Nueva Incidencia
+      </button>
+      <button class="tab-btn" data-tab="lista">
+        📋 Todas las Incidencias
+      </button>
+    </nav>
+
+    <!-- ── Panel: Dashboard ─────────────────────────────── -->
+    <section id="panel-dashboard" class="tab-panel active">
+      <div id="dashboard-stats">
+
+        <div class="stats-grid">
+          <!-- Pendientes -->
+          <div class="stat-card" style="--card-accent:#f59e0b">
+            <div class="stat-label">Pendientes hoy</div>
+            <div class="stat-value" id="stat-hoy">—</div>
+            <div class="stat-sub">Requieren atención inmediata</div>
+          </div>
+
+          <!-- Críticas -->
+          <div class="stat-card" style="--card-accent:#e84b3a">
+            <div class="stat-label">Categoría A · Críticas</div>
+            <div class="stat-value" id="stat-criticas">—</div>
+            <div class="stat-sub">Afectan operación empresa</div>
+          </div>
+
+          <!-- Tiempo promedio -->
+          <div class="stat-card" style="--card-accent:#10b981">
+            <div class="stat-label">Tiempo promedio resolución</div>
+            <div class="stat-value" id="stat-tiempo">—</div>
+            <div class="stat-sub">Solo incidencias resueltas</div>
+          </div>
+        </div>
+
+        <!-- Distribución por estado -->
+        <div class="card">
+          <h3 class="section-title" style="margin-bottom:20px">Distribución por Estado</h3>
+
+          <div style="display:flex;flex-direction:column;gap:18px">
+            <!-- Pendiente -->
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+                <span style="font-size:.85rem">⏳ Pendiente</span>
+                <span style="font-family:var(--font-mono);font-size:.85rem;color:var(--text-muted)" id="stat-pendiente">—</span>
+              </div>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar-fill" id="bar-pendiente"
+                     style="--card-accent:#f59e0b;width:0%"></div>
+              </div>
+            </div>
+
+            <!-- En Proceso -->
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+                <span style="font-size:.85rem">⚙ En Proceso</span>
+                <span style="font-family:var(--font-mono);font-size:.85rem;color:var(--text-muted)" id="stat-proceso">—</span>
+              </div>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar-fill" id="bar-proceso"
+                     style="--card-accent:#3b82f6;width:0%"></div>
+              </div>
+            </div>
+
+            <!-- Resuelto -->
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+                <span style="font-size:.85rem">✅ Resuelto</span>
+                <span style="font-family:var(--font-mono);font-size:.85rem;color:var(--text-muted)" id="stat-resuelto">—</span>
+              </div>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar-fill" id="bar-resuelto"
+                     style="--card-accent:#10b981;width:0%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nota conceptual -->
+        <div class="card" style="border-left:3px solid var(--info);background:rgba(59,130,246,.05)">
+          <p style="font-size:.85rem;color:var(--text-muted);font-family:var(--font-mono);line-height:1.7">
+            <strong style="color:var(--info)">ATRIBUTO DE OPORTUNIDAD:</strong>
+            Este dashboard muestra datos en tiempo real. Un reporte de errores de hace un mes
+            no sirve para tomar decisiones hoy — la información debe ser <em>oportuna</em>.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Panel: Registro ──────────────────────────────── -->
+    <section id="panel-registro" class="tab-panel">
+
+      <div class="card">
+        <h3 class="section-title" style="margin-bottom:22px">Registrar Nueva Incidencia</h3>
+
+        <form id="form-incidencia" novalidate>
+          <div class="form-grid">
+
+            <!-- Título -->
+            <div class="form-group">
+              <label for="titulo">Título</label>
+              <input type="text" id="titulo" placeholder="Ej. Error en módulo de ventas" autocomplete="off" />
+              <span class="error-msg" id="err-titulo"></span>
+            </div>
+
+            <!-- Reportado por -->
+            <div class="form-group">
+              <label for="reportado_por">Reportado por</label>
+              <input type="text" id="reportado_por" placeholder="Tu nombre completo" autocomplete="name" />
+              <span class="error-msg" id="err-reportado_por"></span>
+            </div>
+
+            <!-- Categoría -->
+            <div class="form-group">
+              <label for="categoria">Categoría</label>
+              <select id="categoria">
+                <option value="">— Seleccionar —</option>
+                <option value="A">⚠ Categoría A — Crítica (Afecta operación)</option>
+                <option value="B">○ Categoría B — Leve (Falla menor / sugerencia)</option>
+              </select>
+              <span class="error-msg" id="err-categoria"></span>
+            </div>
+
+            <!-- Descripción (full-width) -->
+            <div class="form-group full">
+              <label for="desc">Descripción</label>
+              <textarea id="desc" placeholder="Describe el problema con detalle (mínimo 10 caracteres)…"></textarea>
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <span class="error-msg" id="err-desc" style="display:inline"></span>
+                <span class="char-count" id="char-count">0/10 mín.</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Botones -->
+          <div style="display:flex;gap:12px;margin-top:8px">
+            <button type="submit" class="btn btn-primary" id="btn-submit">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              <span id="btn-text">Registrar Incidencia</span>
+              <span id="btn-loader" style="display:none">Enviando...</span>
+            </button>
+            <button type="reset" class="btn btn-ghost">Limpiar</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Nota validación -->
+      <div class="card" style="border-left:3px solid var(--accent);background:rgba(232,75,58,.05)">
+        <p style="font-size:.85rem;color:var(--text-muted);font-family:var(--font-mono);line-height:1.7">
+          <strong style="color:var(--accent)">CONTROL DE ENTRADA:</strong>
+          Las validaciones filtran el <em>ruido semántico</em>. Solo datos íntegros
+          llegan a la base de datos — tanto en el cliente (JS) como en el servidor (Python).
+        </p>
+      </div>
+
+    </section>
+
+    <!-- ── Panel: Lista ─────────────────────────────────── -->
+    <section id="panel-lista" class="tab-panel">
+
+      <div class="section-header">
+        <h3 class="section-title">Todas las Incidencias</h3>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <div class="filters">
+            <select class="filter-select" id="fil-categoria">
+              <option value="">Categoría: Todas</option>
+              <option value="A">⚠ Crítica (A)</option>
+              <option value="B">○ Leve (B)</option>
+            </select>
+            <select class="filter-select" id="fil-estado">
+              <option value="">Estado: Todos</option>
+              <option value="Pendiente">Pendiente</option>
+              <option value="En Proceso">En Proceso</option>
+              <option value="Resuelto">Resuelto</option>
+            </select>
+          </div>
+          <button class="btn btn-ghost" id="btn-refresh" style="padding:8px 14px">
+            ↺ Actualizar
+          </button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Título</th>
+              <th>Descripción</th>
+              <th>Categoría</th>
+              <th>Estado</th>
+              <th>Fecha</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tabla-body">
+            <tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted)">
+              Cargando…
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Nota consulta SQL -->
+      <div class="card" style="border-left:3px solid var(--success);background:rgba(16,185,129,.05);margin-top:20px">
+        <p style="font-size:.85rem;color:var(--text-muted);font-family:var(--font-mono);line-height:1.7">
+          <strong style="color:var(--success)">RELEVANCIA:</strong>
+          Los filtros ejecutan <code style="color:var(--success)">SELECT … WHERE categoria='A'</code>
+          en SQLite — solo la información relevante llega al usuario (Atributo de Relevancia).
+        </p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Toast container -->
+  <div id="toast-container"></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
